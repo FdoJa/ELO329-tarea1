@@ -8,13 +8,15 @@ CLASSES = \
         Door.java \
         MagneticSensor.java \
         Sensor.java \
-        Stage2.java \
+        Stage3.java \
         State.java \
         SwitchState.java \
         Window.java \
         Siren.java \
         Central.java \
-        AePlayWave.java
+        AePlayWave.java \
+        Person.java \
+        PIR_detector.java
 
 default: classes
 

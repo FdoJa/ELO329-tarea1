@@ -4,19 +4,26 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Stage2 {
-    public Stage2() {
+public class Stage3 {
+    public Stage3() {
         doors = new ArrayList<Door>();
         windows = new ArrayList<Window>();
+        PIRs = new ArrayList<PIR_detector>();
+        people = new ArrayList<Person>();
     }
 
     public void readConfiguration(Scanner in){
         // reading <#_doors> <#_windows> <#_PIRs>
         central = new Central();
 
-        int numDoors, numWindows;
+        int numDoors, numWindows, numPIRs;
         numDoors = in.nextInt();
         numWindows = in.nextInt();
+        numPIRs = in.nextInt();
+
+        // Parameters to read the next lines
+        float x,y;
+        int paramsPIR = 5, direction_angle, sensing_angle, sensing_range;
 
         for (int i = 0; i < numDoors; i++) {
             doors.add(new Door());
@@ -30,7 +37,19 @@ public class Stage2 {
             windows.add(new Window());
             central.addNewSensorToZone(windows.get(i).getMagneticSensor(), 1);
         }
-
+        String line;
+        // Reading <x> <y> <direction_angle> <sensing_angle> <sensing_range>
+        for (int i = 0; i < numPIRs; i++){
+            in.nextLine();
+            x = in.nextFloat();
+            System.out.println(x);
+            y = in.nextFloat();
+            direction_angle = in.nextInt();
+            sensing_angle = in.nextInt();
+            sensing_range = in.nextInt();
+            PIRs.add(new PIR_detector(x,y,direction_angle,sensing_angle,sensing_range));
+            central.addNewPIR(PIRs.get(i));
+        }
         // Add and set alarm
         in.nextLine();
         String soundFile = in.next();
@@ -42,13 +61,15 @@ public class Stage2 {
 
     public void executeUserInteraction (Scanner in, PrintStream out){
         char command, parameter;
-        int step=0, doorNumber, windowNumber;
+        int step=0, doorNumber, windowNumber, personNumber;
+        float x,y;
+        String arrow;
         boolean done = false;
         printHeader(out);
         System.out.println("--------------- Bienvenido ---------------");
         while (!done) {
             printState(step++, out);
-            System.out.println("\nIngresa el comando a realizar:\n  (k) Armar zona(s)\n  (d) Abrir/cerrar puertas\n  (w) Abrir/cerrar ventanas\n  (x) Salir");
+            System.out.println("\nIngresa el comando a realizar:\n  (k) Armar zona(s)\n  (d) Abrir/cerrar puertas\n  (w) Abrir/cerrar ventanas\n  (c) Crear persona\n  (p) Mover persona\n  (x) Salir");
             command = in.next().charAt(0);
             switch (command) {
                 case 'd':
@@ -98,9 +119,39 @@ public class Stage2 {
                             break;
                     }
                     break;
+                case 'c':
+                    System.out.println("Ingresa la posición \"x\" donde se ubicará la persona:");
+                    x = in.nextFloat();
+                    System.out.println("Ingresa la posición \"y\" donde se ubicará la persona:");
+                    y = in.nextFloat();
+                    people.add(new Person(x,y));
+                    System.out.println("  - Persona añadida con exito");
+                    break;
+                case 'p':
+                    System.out.println("¿Que persona se va a mover? Existen: " + people.size());
+                    personNumber = in.nextInt();
+                    System.out.println("¿hacia que dirección se moverá? (← | ↑ | ↓ | →)");
+                    arrow = in.nextLine();
+                    switch (arrow) {
+                        case "\u2191":
+                            people.get(personNumber).moveY(0.5F);
+                            break;
+                        case "\u2193":
+                            people.get(personNumber).moveY(-0.5F);
+                            break;
+                        case "\u2192":
+                            people.get(personNumber).moveX(0.5F);
+                            break;
+                        case "\u2190":
+                            people.get(personNumber).moveX(-0.5F);
+                            break;
+                        default:
+                            System.out.println("Dirección invalida");
+                            break;
+                    }
                 case 'x': done=true;   // Added to finish the program
             }
-            central.checkZone();
+            central.checkZone(people);
         }
         System.out.println("Cerrando el sistema...");
     }
@@ -112,6 +163,9 @@ public class Stage2 {
         }
         for (int i = 0; i < windows.size(); i++) {
             out.print(String.format("\t%-4s", windows.get(i).getHeader()));
+        }
+        for (int i = 0; i < PIRs.size(); i++){
+            out.print(String.format("\t%-4s", PIRs.get(i).getHeader()));
         }
         out.print(String.format("\t%-4s", siren.getHeader()));
         out.print(String.format("\t%-4s", central.getHeader()));
@@ -127,6 +181,10 @@ public class Stage2 {
         for (int i = 0; i < windows.size(); i++) {
             out.print(String.format("\t%-4d", windows.get(i).getState()));
         }
+        for (int i = 0; i < PIRs.size(); i++){
+            out.print(String.format("\t%-4d", PIRs.get(i).parseState()));
+        }
+
         out.print(String.format("\t%-4s", siren.getState()));
         out.print(String.format("\t%-4s", central.getState()));
 
@@ -135,18 +193,20 @@ public class Stage2 {
 
     public static void main(String [] args) throws IOException {
         if (args.length != 1) {
-            System.out.println("Usage: java Stage2 <config.txt>");
+            System.out.println("Usage: java Stage3 <config.txt>");
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
         //System.out.println("File: " + args[0]);
-        Stage2 stage = new Stage2();
+        Stage3 stage = new Stage3();
         stage.readConfiguration(in);
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }
 
     private ArrayList<Door> doors;
     private ArrayList<Window> windows;
+    private ArrayList<PIR_detector> PIRs;
+    private ArrayList<Person> people;
     private Central central;
     private Siren siren;
 }

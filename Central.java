@@ -5,6 +5,7 @@ public class Central {
     public Central(){
         zone0 = new ArrayList<Sensor>();
         zone1 = new ArrayList<Sensor>();
+        zone2 = new ArrayList<PIR_detector>();
         activeZones = new boolean[3];
 
         isArmed = false;
@@ -50,14 +51,20 @@ public class Central {
         }
     }
 
-    public void checkZone(){
+    public void addNewPIR(PIR_detector p){
+        zone2.add(p);
+    }
+
+    public void checkZone(ArrayList<Person> people){
         if (!isArmed){
             return;
         }
+
+
         System.out.println("Revisando zona(s)");
         boolean triggerAlarm = false;
+        float x,y;
 
-        System.out.println("¿Zonas activas? Zona 0: " + activeZones[0] + "- Zona 1: " +activeZones[1]);
         if (activeZones[0]) {
             for (Sensor s : zone0){
                 if (s.isTriggered()){
@@ -76,9 +83,26 @@ public class Central {
             }
         }
 
+        if (activeZones[2]){
+            if (people.size() > 0){
+                for (Person h : people){
+                    x = h.getX();
+                    y = h.getY();
+
+                    for (PIR_detector p : zone2){
+                        p.detect(x,y);
+                        if (p.isTriggered()){
+                            triggerAlarm = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         System.out.println("¿Alarma?: " + triggerAlarm);
         if (triggerAlarm){
-            System.out.println("Enecendiendo alarma...");
+            System.out.println("Encendiendo alarma...");
             siren.play();
         }
     }
@@ -90,6 +114,7 @@ public class Central {
     }
 
     private ArrayList<Sensor> zone0, zone1;
+    private ArrayList<PIR_detector> zone2;
     private boolean[] activeZones;
     private boolean isArmed;
     private Siren siren;
