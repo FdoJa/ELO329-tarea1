@@ -37,17 +37,21 @@ public class Stage1 {
             command = in.next().charAt(0);
             switch (command) {
                 case 'd':
+                    System.out.println("¿Que puerta quieres abrir? Existen: " + doors.size());
+                    int doorNumber = in.nextInt();
                     System.out.println("¿Quieres abrir o cerrar la puerta? (o = abrir, c = cerrar)");
                     parameter = in.next().charAt(0);
                     if (parameter == 'o') {
-                        doors.get(0).open();
+                        doors.get(doorNumber).open();
                         System.out.println("  - La puerta ha sido abierta");
                     } else {
-                        doors.get(0).close();
+                        doors.get(doorNumber).close();
                         System.out.println("  - La puerta ha sido cerrada");
                     }
                     break;
                 case 'w':
+                    System.out.println("¿Que ventana quieres abrir? Existen: " + windows.size());
+                    int windowNumber = in.nextInt();
                     System.out.println("¿Quieres abrir o cerrar la ventana? (o = abrir, c = cerrar)");
                     parameter = in.next().charAt(0);
                     if (parameter == 'o') {
