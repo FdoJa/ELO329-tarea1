@@ -8,17 +8,21 @@ CLASSES = \
         Door.java \
         MagneticSensor.java \
         Sensor.java \
-        Stage1.java \
+        Stage2.java \
         State.java \
         SwitchState.java \
-        Window.java
+        Window.java \
+        Siren.java \
+        Central.java \
+        AePlayWave.java
 
 default: classes
 
 classes: $(CLASSES:.java=.class)
 
 run: classes
-	java Stage1 config.txt
+	java Stage2 config.txt
 
 clean:
-	$(RM) *.class
+	$(RM) *.class \
+	$(RM) *.csv

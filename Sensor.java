@@ -8,6 +8,11 @@ public class Sensor {
     public SwitchState getState(){
         return this.state;
     }
+
+    public boolean isTriggered(){
+        return (getState() == SwitchState.OPEN);
+    }
+
     protected void setState(SwitchState s) {
         this.state = s;
     }

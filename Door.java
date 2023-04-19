@@ -14,6 +14,11 @@ public class Door {
         magneticSensor.putMagnetNearSwitch();
         state = State.CLOSE;
     }
+
+    public MagneticSensor getMagneticSensor() {
+        return this.magneticSensor;
+    }
+
     public String getHeader(){
         return "d"+id;
     }

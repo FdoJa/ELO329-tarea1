@@ -14,6 +14,11 @@ public class Window {
         magneticSensor.putMagnetNearSwitch();
         state = State.CLOSE;
     }
+
+    public MagneticSensor getMagneticSensor() {
+        return magneticSensor;
+    }
+
     public String getHeader(){
         return "w"+id;
     }
