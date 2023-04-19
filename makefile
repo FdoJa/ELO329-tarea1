@@ -21,4 +21,5 @@ run: classes
 	java Stage1 config.txt
 
 clean:
-	$(RM) *.class
+	$(RM) *.class \
+    $(RM) *.csv
