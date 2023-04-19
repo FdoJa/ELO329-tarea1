@@ -23,7 +23,7 @@ default: classes
 classes: $(CLASSES:.java=.class)
 
 run: classes
-	java Stage2 config.txt
+	java Stage3 config.txt
 
 clean:
 	$(RM) *.class \
