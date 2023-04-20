@@ -13,29 +13,42 @@ public class PIR_detector extends Sensor {
 
     public void inAreaOfDetection(){
         setState(SwitchState.OPEN);
-        state = State.OPEN;
     }
 
     public void notInAreaOfDetection(){
         setState(SwitchState.CLOSE);
-        state = State.CLOSE;
     }
 
     public void detect(float x, float y) {
         double dx = x - this.x;
         double dy = y - this.y;
-        double distance = Math.sqrt(dx*dx + dy*dy);
-        double angle = Math.atan2(dy, dx);
-        double angle_diff = Math.abs(angle - direction_angle);
-        if (angle_diff > Math.PI) {
-            angle_diff = 2*Math.PI - angle_diff;
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > sensing_range) {
+            notInAreaOfDetection();
+            return;
         }
 
-        if (angle_diff <= sensing_angle/2. && distance <= sensing_range)
+        if (x == this.x && y == this.y){
+            System.out.println("Se ha activado un PIR");
             inAreaOfDetection();
-        else
-            notInAreaOfDetection();
+            return;
+        }
 
+        double half_sensing_angle = sensing_angle / 2.0;
+        double lower_angle = direction_angle - half_sensing_angle;
+        double upper_angle = direction_angle + half_sensing_angle;
+
+        double angle = Math.atan2(dy, dx);
+
+        //System.out.println(" [rad] entre puntos: " + angle);
+        //System.out.println(" ° entre puntos: " + Math.toDegrees(angle));
+        if (angle > lower_angle && angle < upper_angle){
+            System.out.println("Se ha activado un PIR");
+            inAreaOfDetection();
+        } else {
+            notInAreaOfDetection();
+        }
     }
 
     public String getHeader(){
@@ -52,7 +65,6 @@ public class PIR_detector extends Sensor {
 
     private float x, y;
     private int direction_angle, sensing_angle, sensing_range;
-    private State state;
     private final int id;
     private static int nextId=0;
 }
