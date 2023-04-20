@@ -8,7 +8,7 @@ CLASSES = \
         Door.java \
         MagneticSensor.java \
         Sensor.java \
-        Stage3.java \
+        Stage4.java \
         State.java \
         SwitchState.java \
         Window.java \
@@ -23,7 +23,7 @@ default: classes
 classes: $(CLASSES:.java=.class)
 
 run: classes
-	java Stage2 config.txt
+	java Stage4 config.txt
 
 clean:
 	$(RM) *.class \

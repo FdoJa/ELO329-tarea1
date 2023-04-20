@@ -4,8 +4,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Stage3 {
-    public Stage3() {
+public class Stage4 {
+    public Stage4() {
         doors = new ArrayList<Door>();
         windows = new ArrayList<Window>();
         PIRs = new ArrayList<PIR_detector>();
@@ -23,7 +23,7 @@ public class Stage3 {
 
         // Parameters to read the next lines
         float x,y;
-        int paramsPIR = 5, direction_angle, sensing_angle, sensing_range;
+        int direction_angle, sensing_angle, sensing_range;
 
         for (int i = 0; i < numDoors; i++) {
             doors.add(new Door());
@@ -37,12 +37,11 @@ public class Stage3 {
             windows.add(new Window());
             central.addNewSensorToZone(windows.get(i).getMagneticSensor(), 1);
         }
-        String line;
+
         // Reading <x> <y> <direction_angle> <sensing_angle> <sensing_range>
         for (int i = 0; i < numPIRs; i++){
             in.nextLine();
             x = in.nextFloat();
-            System.out.println(x);
             y = in.nextFloat();
             direction_angle = in.nextInt();
             sensing_angle = in.nextInt();
@@ -131,24 +130,26 @@ public class Stage3 {
                     System.out.println("¿Que persona se va a mover? Existen: " + people.size());
                     personNumber = in.nextInt();
                     System.out.println("¿hacia que dirección se moverá? (← | ↑ | ↓ | →)");
-                    arrow = in.nextLine();
+                    arrow = in.next();
                     switch (arrow) {
-                        case "\u2191":
+                        case "↑":
                             people.get(personNumber).moveY(0.5F);
                             break;
-                        case "\u2193":
+                        case "↓":
                             people.get(personNumber).moveY(-0.5F);
+                            System.out.println("Posición nueva en Y: " + people.get(personNumber).getY());
                             break;
-                        case "\u2192":
+                        case "→":
                             people.get(personNumber).moveX(0.5F);
                             break;
-                        case "\u2190":
+                        case "←":
                             people.get(personNumber).moveX(-0.5F);
                             break;
                         default:
                             System.out.println("Dirección invalida");
                             break;
                     }
+                    break;
                 case 'x': done=true;   // Added to finish the program
             }
             central.checkZone(people);
@@ -193,12 +194,12 @@ public class Stage3 {
 
     public static void main(String [] args) throws IOException {
         if (args.length != 1) {
-            System.out.println("Usage: java Stage3 <config.txt>");
+            System.out.println("Usage: java Stage4 <config.txt>");
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
         //System.out.println("File: " + args[0]);
-        Stage3 stage = new Stage3();
+        Stage4 stage = new Stage4();
         stage.readConfiguration(in);
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }
