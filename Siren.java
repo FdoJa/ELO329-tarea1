@@ -14,15 +14,19 @@ public class Siren {
 
     public void play(){
         if(!isSounding) {
+            /* Se comenta a que empiece la alarma ya que me produce una excepción :(
             aWave = new AePlayWave(dir);
             aWave.start();
+            */
             isSounding = true;
         }
     }
 
     public void stop(){
         if(isSounding) {
+            /* Lo mismo acá, ya no está sonando realmente no se llama a la función.
             aWave.stopSounding();
+             */
             isSounding = false;
         }
     }
