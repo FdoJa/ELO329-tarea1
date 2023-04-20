@@ -75,7 +75,6 @@ public class Central {
             }
         }
 
-
         if (triggerAlarm){
             System.out.println("Seguridad traspasada, activando alarma...");
             siren.play();
