@@ -130,7 +130,7 @@ public class Stage3 {
                     System.out.println("¿Que persona se va a mover? Existen: " + people.size());
                     personNumber = in.nextInt();
                     System.out.println("¿hacia que dirección se moverá? (← | ↑ | ↓ | →)");
-                    arrow = in.nextLine();
+                    arrow = in.next();
                     switch (arrow) {
                         case "↑":
                             people.get(personNumber).moveY(0.5F);
