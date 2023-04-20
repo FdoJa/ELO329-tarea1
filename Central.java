@@ -57,7 +57,6 @@ public class Central {
         System.out.println("Revisando zona(s)");
         boolean triggerAlarm = false;
 
-        System.out.println("¿Zonas activas? Zona 0: " + activeZones[0] + "- Zona 1: " +activeZones[1]);
         if (activeZones[0]) {
             for (Sensor s : zone0){
                 if (s.isTriggered()){
@@ -76,10 +75,12 @@ public class Central {
             }
         }
 
-        System.out.println("¿Alarma?: " + triggerAlarm);
+
         if (triggerAlarm){
-            System.out.println("Enecendiendo alarma...");
+            System.out.println("Seguridad traspasada, activando alarma...");
             siren.play();
+        } else {
+            System.out.println("Todo en orden!");
         }
     }
     public String getHeader(){
