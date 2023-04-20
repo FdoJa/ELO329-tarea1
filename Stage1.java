@@ -27,7 +27,7 @@ public class Stage1 {
 
     public void executeUserInteraction (Scanner in, PrintStream out){
         char command, parameter;
-        int step=0;
+        int step=0, doorNumber, windowNumber;
         boolean done = false;
         printHeader(out);
         System.out.println("--------------- Bienvenido ---------------");
@@ -38,7 +38,7 @@ public class Stage1 {
             switch (command) {
                 case 'd':
                     System.out.println("¿Que puerta quieres abrir? Existen: " + doors.size());
-                    int doorNumber = in.nextInt();
+                    doorNumber = in.nextInt();
                     System.out.println("¿Quieres abrir o cerrar la puerta? (o = abrir, c = cerrar)");
                     parameter = in.next().charAt(0);
                     if (parameter == 'o') {
@@ -51,14 +51,14 @@ public class Stage1 {
                     break;
                 case 'w':
                     System.out.println("¿Que ventana quieres abrir? Existen: " + windows.size());
-                    int windowNumber = in.nextInt();
+                    windowNumber = in.nextInt();
                     System.out.println("¿Quieres abrir o cerrar la ventana? (o = abrir, c = cerrar)");
                     parameter = in.next().charAt(0);
                     if (parameter == 'o') {
-                        windows.get(0).open();
+                        windows.get(windowNumber).open();
                         System.out.println("  - La ventana ha sido abierta");
                     } else {
-                        windows.get(0).close();
+                        windows.get(windowNumber).close();
                         System.out.println("  - La ventana ha sido cerrada");
                     }
                     break;
