@@ -41,10 +41,6 @@ public class PIR_detector extends Sensor {
 
         double angle = Math.atan2(dy, dx);
 
-        System.out.println(" ° bajo: " + lower_angle + " alto: " + upper_angle);
-
-        System.out.println(" [rad] entre puntos: " + angle);
-        System.out.println(" ° entre puntos: " + Math.toDegrees(angle));
         if (angle > lower_angle && angle < upper_angle){
             System.out.println("Se ha activado un PIR");
             inAreaOfDetection();
