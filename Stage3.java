@@ -37,12 +37,11 @@ public class Stage3 {
             windows.add(new Window());
             central.addNewSensorToZone(windows.get(i).getMagneticSensor(), 1);
         }
-        String line;
+
         // Reading <x> <y> <direction_angle> <sensing_angle> <sensing_range>
         for (int i = 0; i < numPIRs; i++){
             in.nextLine();
             x = in.nextFloat();
-            System.out.println(x);
             y = in.nextFloat();
             direction_angle = in.nextInt();
             sensing_angle = in.nextInt();
@@ -131,24 +130,25 @@ public class Stage3 {
                     System.out.println("¿Que persona se va a mover? Existen: " + people.size());
                     personNumber = in.nextInt();
                     System.out.println("¿hacia que dirección se moverá? (← | ↑ | ↓ | →)");
-                    arrow = in.nextLine();
+                    arrow = in.next();
                     switch (arrow) {
-                        case "\u2191":
+                        case "↑":
                             people.get(personNumber).moveY(0.5F);
                             break;
-                        case "\u2193":
+                        case "↓":
                             people.get(personNumber).moveY(-0.5F);
                             break;
-                        case "\u2192":
+                        case "→":
                             people.get(personNumber).moveX(0.5F);
                             break;
-                        case "\u2190":
+                        case "←":
                             people.get(personNumber).moveX(-0.5F);
                             break;
                         default:
                             System.out.println("Dirección invalida");
                             break;
                     }
+                    break;
                 case 'x': done=true;   // Added to finish the program
             }
             central.checkZone(people);

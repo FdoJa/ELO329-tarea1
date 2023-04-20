@@ -60,7 +60,6 @@ public class Central {
             return;
         }
 
-
         System.out.println("Revisando zona(s)");
         boolean triggerAlarm = false;
         float x,y;
@@ -96,15 +95,21 @@ public class Central {
                             break;
                         }
                     }
+
+                    if (triggerAlarm){
+                        break;
+                    }
                 }
             }
         }
 
-        System.out.println("¿Alarma?: " + triggerAlarm);
         if (triggerAlarm){
-            System.out.println("Encendiendo alarma...");
+            System.out.println("Seguridad traspasada, activando alarma...");
             siren.play();
+        } else {
+            System.out.println("Todo en orden!");
         }
+
     }
     public String getHeader(){
         return "Central";
