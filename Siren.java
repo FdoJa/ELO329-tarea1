@@ -27,6 +27,7 @@ public class Siren {
             /* Lo mismo acá, ya no está sonando realmente no se llama a la función.
             aWave.stopSounding();
             */
+            System.out.println("Desactivando alarma");
             isSounding = false;
         }
     }

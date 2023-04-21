@@ -137,7 +137,6 @@ public class Stage4 {
                             break;
                         case "↓":
                             people.get(personNumber).moveY(-0.5F);
-                            System.out.println("Posición nueva en Y: " + people.get(personNumber).getY());
                             break;
                         case "→":
                             people.get(personNumber).moveX(0.5F);
@@ -152,7 +151,11 @@ public class Stage4 {
                     break;
                 case 'x': done=true;   // Added to finish the program
             }
+
             central.checkZone(people);
+            if (siren.getState() == 1){
+                System.out.println("La alarma esta sonando...");
+            }
         }
         System.out.println("Cerrando el sistema...");
     }
